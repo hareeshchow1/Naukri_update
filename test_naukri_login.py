@@ -3,6 +3,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 import time
+import os
 
 
 
@@ -17,9 +18,9 @@ def driver():
     driver.quit()
 
 def test_naukri_login(driver):
-    username = 'dp121407h@gmail.com'
-    password = 'code@dp3'
-    Updated_Name = "panuganti deepthi"
+    username = os.environ.get('N_USERNAME')
+    password = os.environ.get('N_PASSWORD')
+    Updated_Name = os.environ.get('UPDATED_NAME')
     
     
     driver.get("https://www.naukri.com/nlogin/login")
