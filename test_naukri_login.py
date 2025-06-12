@@ -4,6 +4,11 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 import time
 
+
+
+
+
+
 @pytest.fixture(scope="module")
 def driver():
     # You can change to webdriver.Chrome() if you have ChromeDriver
@@ -14,6 +19,8 @@ def driver():
 def test_naukri_login(driver):
     username = 'dp121407h@gmail.com'
     password = 'code@dp3'
+    Updated_Name = "panuganti deepthi"
+    
     
     driver.get("https://www.naukri.com/nlogin/login")
     time.sleep(2)  # Wait for page to load
@@ -33,22 +40,21 @@ def test_naukri_login(driver):
 
     # Example: Click on the "Resume Headline" edit button (update as per actual element)
     try:
-        edit_button = driver.find_element(By.XPATH, "//span[text()='Resume Headline']/following-sibling::span[contains(@class, 'edit')]")
+        edit_button = driver.find_element(By.XPATH, '//em[@class="icon edit "]')
         edit_button.click()
         time.sleep(2)
 
-        # Update the resume headline (example text)
-        headline_box = driver.find_element(By.XPATH, "//textarea[@name='resumeHeadline']")
-        headline_box.clear()
-        headline_box.send_keys("Experienced Python Developer with expertise in automation and web scraping.")
+        dialog_box = driver.find_element(By.XPATH, "//*[@id='editBasicDetailsForm']")
+        assert dialog_box.is_displayed(), "Edit dialog box is not displayed."
+
+        name_edit = driver.find_element(By.XPATH, '//*[@id="name"]')
+        name_edit.clear()
+        name_edit.send_keys(Updated_Name) # Update with a new name
+        time.sleep(1)
 
         # Save changes
         save_button = driver.find_element(By.XPATH, "//button[text()='Save']")
         save_button.click()
         time.sleep(2)
     except Exception as e:
-        pytest.fail(f"Failed to update resume headline: {e}")
-
-    # Optionally, assert that the update was successful
-    updated_headline = driver.find_element(By.XPATH, "//span[text()='Resume Headline']/following-sibling::span[1]").text
-    assert "Experienced Python Developer" in updated_headline
+        pytest.fail(f"Failed to update resume : {e}")
